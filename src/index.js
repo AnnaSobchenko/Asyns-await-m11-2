@@ -16,7 +16,7 @@ async function reqServer(url, method = 'GET', data = {}) {
   const responce = await fetch(baseUrl + url, options);
   return responce.json();
 }
-reqServer('/posts').then(data => console.log(data));
+// reqServer('/posts').then(data => console.log(data));
 
 const refs = {
   listNode: document.querySelector('.post-list'),
@@ -24,28 +24,34 @@ const refs = {
 };
 
 async function renderPostList() {
-  const data = await reqServer('/posts').then(data => {
-    const markup = data
-      .map(
-        post => `<li data-id="${post.id}">
+  const data = await reqServer('/posts');
+  const markup = (
+    await Promise.all(
+      data.map(async post => {
+        const comments = await reqServer('/comments?postId=' + post.id);
+        return `<li data-id="${post.id}">
         <h3>${post.title}</h3>
         <p>${post.text}</p>
         <button data-action="del">DELETE</button> 
         <button data-action="edit">EDIT</button>
         <div>
-        <span class="like" data-actio="like">&#128077;${post.like}</span>
-        <span class="dislike" data-action="dislike">&#128078;${post.dislike}</span></div>
-        <small> ${post.author}</small></p></li>`,
-      )
-      .join('');
-    refs.listNode.innerHTML = markup;
-  });
+        <span class="like" data-actio="like">${post.like}</span>
+        <span class="dislike" data-action="dislike">${post.dislike}</span></div>
+        <small> ${post.author}</small></p>
+        <input class='create-comment' placeholder="Comment">
+        <ul class="comments">${comments.map(item => `<li>${item.text}</li>`).join('')}</ul>
+        </li>`;
+      }),
+    )
+  ).join('');
+
+  refs.listNode.innerHTML = markup;
 }
 
 renderPostList();
 refs.listNode.addEventListener('click', async e => {
   if (e.target.nodeName !== 'SPAN') return;
-  const id = e.target.closet('li').dataset.id;
+  const id = e.target.closest('li').dataset.id;
   if (e.target.dataset.action === 'like') {
     await reqServer(`/posts/${id}`, 'PATCH', { like: Number(e.target.textContent) + 1 });
     e.target.textContent = Number(e.target.textContent) + 1;
@@ -95,4 +101,13 @@ refs.form.addEventListener('keydown', async e => {
       await reqServer(`/posts/${id}`, 'PATCH', data);
     }
   }
+});
+
+refs.listNode.addEventListener('keydown', async e => {
+  if (e.code === 'Enter' && e.shiftKey && e.target.nodeName === 'INPUT') {
+    const postId = Number(e.target.closest('li').dataset.id);
+    const text = e.target.value;
+    await reqServer('/comments', 'POST', { postId, text });
+  }
+  // renderPostList();
 });
