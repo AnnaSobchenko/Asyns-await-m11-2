@@ -1,27 +1,73 @@
-.example {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-    'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
-  background-color: #fff;
-  color: #424242;
-  max-width: 960px;
-  padding: 16px;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-.example code {
-  font-family: monospace;
-  font-size: 16px;
-  font-weight: 700;
-  background-color: #009688;
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 2px;
+ul {
+  list-style: none;
 }
 
-.example .background {
-  height: 240px;
-  // Путь к изображениям из SASS-файла всегда такой, как из папки css
-  background-image: url('../images/demo.jpg');
-  background-size: cover;
-  background-position: center;
+.wraper {
+  width: 980px;
+  margin: 0 auto;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  background-color: #caedec;
+}
+
+.post-list {
+  padding: 2px;
+  li {
+    border-top: 1px solid black;
+  }
+  h3 {
+    margin-bottom: 10px;
+  }
+  small {
+    display: block;
+    text-align: right;
+  }
+  button {
+    display: block;
+    margin-left: auto;
+    padding: 2px;
+    margin-bottom: 5px;
+  }
+}
+
+#create-post {
+  padding: 2px;
+  div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    input:first-child {
+      width: 70%;
+    }
+    input:last-child {
+      width: 25%;
+    }
+  }
+  textarea {
+    width: 100%;
+
+    resize: none;
+  }
+}
+
+.like {
+  color: #caedec;
+  width: 35px;
+  height: 35px;
+  background-color: green;
+  padding: 5px;
+  margin-right: 10px;
+}
+.dislike {
+  color: #caedec;
+  width: 35px;
+  height: 35px;
+  background-color: tomato;
+  padding: 5px;
+  margin-right: 10px;
 }

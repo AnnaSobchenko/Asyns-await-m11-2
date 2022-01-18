@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Заголовок страницы</title>
+    <title>CRUD m11</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css"
@@ -12,6 +12,17 @@
     />
   </head>
   <body>
+    <div class="wraper">
+      <form id="create-post">
+        <div class="input">
+          <input type="text" name="title" placeholder="Title" />
+          <input type="text" name="author" placeholder="Author" />
+          <input type="hidden" name="id" />
+        </div>
+        <textarea name="text" placeholder="Text"></textarea>
+      </form>
+      <ul class="post-list"></ul>
+    </div>
     <script src="./index.js"></script>
   </body>
 </html>
